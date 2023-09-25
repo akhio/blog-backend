@@ -8,6 +8,7 @@ const session = require("express-session");
 const redirectIfAuthenticatedMiddleware = require("./middleware/redirectIfAuthenticatedMiddleware");
 require("dotenv").config();
 const hideButtonsMiddleware = require("./middleware/hideButtonsMiddleware");
+const flash = require("connect-flash");
 
 // Controllers
 const newPostController = require("./controllers/newPost");
@@ -34,7 +35,7 @@ app.use(
     cookie: { maxAge: 3600000 },
   })
 );
-
+app.use(flash());
 app.use("posts/store", validateMiddleware);
 app.use(fileUpload());
 app.use(bodyParser.json());
@@ -42,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("*", hideButtonsMiddleware);
+
 
 // Server port
 app.listen(3000, () => {
