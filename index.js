@@ -83,3 +83,5 @@ app.get("/", (req, res) => {
 });
 
 app.get("/post/:id", getPostContoller);
+
+app.use((req, res) => res.render("notfound"));
