@@ -20,6 +20,7 @@ const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 const loginUserController = require("./controllers/loginUser");
 const logoutUserController = require("./controllers/logout");
+const authMiddleware = require("./middleware/authMiddleware");
 
 // Database connection (MongoDB Atlas)
 mongoose.connect(process.env.MONGODB_API_KEY);
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGODB_API_KEY);
 // Middlewares
 global.loggedIn = null;
 
+app.use(flash());
 app.use(
   session({
     resave: false, // Set to false to prevent the session from being saved on every request
@@ -35,7 +37,10 @@ app.use(
     cookie: { maxAge: 3600000 },
   })
 );
-app.use(flash());
+app.use("*", (req, res, next) => {
+  loggedIn = req.session.userID;
+  next();
+});
 app.use("posts/store", validateMiddleware);
 app.use(fileUpload());
 app.use(bodyParser.json());
@@ -43,7 +48,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("*", hideButtonsMiddleware);
-
 
 // Server port
 app.listen(3000, () => {
@@ -69,14 +73,13 @@ app.post(
 
 app.get("/auth/register", redirectIfAuthenticatedMiddleware, newUserController);
 
-app.post("/posts/store", storePostController);
+app.post("/posts/store", authMiddleware, storePostController);
 
 app.get("/", homeController);
 
-app.get("/posts/new", newPostController);
+app.get("/posts/new", authMiddleware, newPostController);
 
 app.get("/posts/store", (req, res) => {
-  console.log(req.body);
   res.redirect("/");
 });
 

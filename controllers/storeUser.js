@@ -1,15 +1,16 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 module.exports = async (req, res) => {
   try {
     await User.create(req.body);
-    res.render('login');
+    res.render("login", {
+      errors: req.flash("validationErrorsLogin"),
+    });
   } catch (err) {
     const validationErrors = Object.keys(err.errors).map(
       (key) => err.errors[key].properties.message
     );
-    req.flash('data', req.body)
-    req.flash('validationErrors', validationErrors);
-    return res.redirect('/auth/register');
+    req.flash("validationErrors", validationErrors);
+    return res.redirect("/auth/register");
   }
 };

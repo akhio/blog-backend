@@ -22,6 +22,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <!-- Post preview-->
+                    <% if (blogposts != null) { %>
                     <% for (var i = 0; i < blogposts.length; i++) { %>
                         <div class="post-preview"> <a href="/post/<%= blogposts[i]._id %>">
                         <h2 class="post-title">
@@ -36,6 +37,7 @@
                         </div>
                         <hr>
                         <% } %>
+                    <% } %>
                     <!-- Pager-->
                     <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
                 </div>

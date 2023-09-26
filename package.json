@@ -19,6 +19,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^7.5.2",
     "mongoose-unique-validator": "^4.0.0",
+    "node-icecream": "^1.0.0",
     "start": "^5.1.0"
   },
   "devDependencies": {
