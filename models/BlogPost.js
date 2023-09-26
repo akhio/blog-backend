@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require("mongoose-unique-validator");
 
 const BlogPostSchema = new Schema({
   title: {
@@ -11,7 +11,11 @@ const BlogPostSchema = new Schema({
     type: String,
     required: [true, "Please provide description"],
   },
-  username: String,
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   datePosted: {
     type: Date,
     default: new Date(),
