@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
       next(); // Proceed to the next middleware
     })
     .catch((error) => {
-      console.error("Error finding user by ID:", error);
       return res.redirect("/");
     });
 };

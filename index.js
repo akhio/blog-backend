@@ -79,9 +79,7 @@ app.get("/", homeController);
 
 app.get("/posts/new", authMiddleware, newPostController);
 
-app.get("/posts/store", (req, res) => {
-  res.redirect("/");
-});
+app.get("/posts/store", authMiddleware, storePostController);
 
 app.get("/", (req, res) => {
   res.render("index");
